@@ -232,8 +232,4 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.reset(); // Limpa os campos do formulário
         loginErrorMessage.classList.add('d-none'); // Esconde a mensagem de erro
     });
-
-    // ... RESTO DO SEU CÓDIGO (por exemplo, a lógica de carregar os tickers) ...
-
 });
-// Este código seria adicionado em um <script> no final do body ou em um arquivo JS separado
