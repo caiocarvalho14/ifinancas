@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             const postDate = parseDateForDisplay(getData(indices.data)); // Usa a data do formulário (coluna 'data')
                             const postContent = getData(indices.conteudo);
                             const postImageUrl = getData(indices.url_imagem);
-                            const defaultPostImageUrl = 'https://via.placeholder.com/1200x600?text=Imagem+do+Post'; // Imagem padrão para post individual
+                            const defaultPostImageUrl = 'https://www.consultoriarr.com.br/wp-content/uploads/2023/05/Qual-e-a-diferenca-entre-contabilidade-e-financas.jpeg'; // Imagem padrão para post individual
 
                             const postHtml = `
                                 <div class="col-lg-8">
