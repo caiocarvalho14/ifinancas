@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Juros Compostos - iFinanças</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlalH+t2L/Pz+m/3d+V0rU+J4o/8j/T+4Q6E0gKxO4w+t+R8gBwF5K6/q/F+u6V+w+C4wz+w+F5K6/q/F+w+C4wz+w+" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            padding-top: 56px; /* Para o navbar fixo */
+            background-color: #f8f9fa;
+            min-height: 100vh; /* Garante que o corpo da página ocupe toda a altura da viewport */
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar-search-form {
+            max-width: 600px;
+            width: 100%;
+        }
+        main {
+            flex-grow: 1; /* Faz com que o conteúdo principal ocupe o espaço disponível, empurrando o rodapé para baixo */
+        }
+        .calculator-section {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 2rem; /* Espaço entre as seções ou antes do rodapé */
+        }
+        .result-section {
+            background-color: #e9ecef; /* Cor de fundo para a área de resultados */
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: inset 0 0 0.5rem rgba(0, 0, 0, 0.05); /* Sombra interna para destaque */
+            text-align: center;
+        }
+        .result-section h4 {
+            color: #0d6efd; /* Cor primária do Bootstrap */
+            margin-bottom: 1rem;
+        }
+        .result-section p {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #28a745; /* Verde para resultado positivo, ajuste conforme necessário */
+        }
+        footer {
+            background-color: #343a40; /* Fundo escuro como no seu rodapé */
+            color: #f8f9fa; /* Texto claro */
+            padding: 2rem 0;
+            margin-top: auto; /* Empurra o rodapé para o final da página */
+        }
+        footer a {
+            color: #f8f9fa;
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: #0d6efd;
+        }
+
+        /* Estilos do Ticker */
+        .ticker-bar {
+            background-color: #f0f0f0; /* Fundo cinza claro para a barra do ticker */
+            padding: 0.5rem 0;
+            overflow: hidden; /* Importante para esconder o conteúdo que sai da tela */
+            white-space: nowrap; /* Garante que os itens permaneçam em uma linha */
+            box-shadow: inset 0 1px 0 rgba(0,0,0,.05); /* Pequena sombra para separar do topo */
+        }
+        .ticker-content {
+            display: inline-block; /* Permite que o conteúdo se estenda horizontalmente */
+            animation: ticker-scroll 30s linear infinite; /* Nome da animação, duração, velocidade, repetição */
+        }
+        .ticker-item {
+            display: inline-block; /* Itens na mesma linha */
+            margin-right: 2rem; /* Espaçamento entre os itens */
+            font-size: 0.9rem; /* Tamanho da fonte */
+            vertical-align: middle; /* Alinha o texto verticalmente */
+        }
+        .quote-change {
+            margin-left: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .quote-change.positive {
+            color: #28a745; /* Verde do Bootstrap success */
+        }
+        .quote-change.negative {
+            color: #dc3545; /* Vermelho do Bootstrap danger */
+        }
+        .quote-change.neutral {
+            color: #6c757d; /* Cinza do Bootstrap secondary */
+        }
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); } /* Rola 50% para a esquerda (assumindo conteúdo duplicado) */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top border-bottom shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold text-primary" href="../../../index.html">iFinanças</a> 
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <form class="d-flex mx-auto my-2 my-lg-0 navbar-search-form" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Buscar ativos, notícias e mais..."
+                            aria-label="Buscar">
+                    </form>
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../../index.html">Notícias</a> 
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../../index.html">Posts</a> 
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../index.html">Calculadoras</a> 
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center ms-lg-3 mt-2 mt-lg-0">
+                        <a href="#" class="btn btn-outline-primary" id="adminButton" data-bs-toggle="modal" data-bs-target="#loginModal">Entrar</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="ticker-bar">
+        <div class="container-fluid">
+            <div class="ticker-content" id="dynamic-ticker-content">
+                <div class="ticker-item"><span>IBOV</span> <span class="fw-bold">120.530 pts</span> <span class="quote-change positive">(+1,23%)</span></div>
+                <div class="ticker-item"><span>SMAL11</span> <span class="fw-bold">R$ 105,30</span> <span class="quote-change neutral">(0%)</span></div>
+                <div class="ticker-item"><span>WEGE3</span> <span class="fw-bold">R$ 38,50</span> <span class="quote-change negative">(-1,63%)</span></div>
+                <div class="ticker-item"><span>VALE3</span> <span class="fw-bold">R$ 61,50</span> <span class="quote-change positive">(+1,97%)</span></div>
+                <div class="ticker-item"><span>PETR4</span> <span class="fw-bold">R$ 36,80</span> <span class="quote-change positive">(+0,85%)</span></div>
+                <div class="ticker-item"><span>MGLU3</span> <span class="fw-bold">R$ 12,25</span> <span class="quote-change negative">(-2,15%)</span></div>
+                <div class="ticker-item"><span>IBOV</span> <span class="fw-bold">120.530 pts</span> <span class="quote-change positive">(+1,23%)</span></div>
+                <div class="ticker-item"><span>SMAL11</span> <span class="fw-bold">R$ 105,30</span> <span class="quote-change neutral">(0%)</span></div>
+                <div class="ticker-item"><span>WEGE3</span> <span class="fw-bold">R$ 38,50</span> <span class="quote-change negative">(-1,63%)</span></div>
+                <div class="ticker-item"><span>VALE3</span> <span class="fw-bold">R$ 61,50</span> <span class="quote-change positive">(+1,97%)</span></div>
+                <div class="ticker-item"><span>PETR4</span> <span class="fw-bold">R$ 36,80</span> <span class="quote-change positive">(+0,85%)</span></div>
+                <div class="ticker-item"><span>MGLU3</span> <span class="fw-bold">R$ 12,25</span> <span class="quote-change negative">(-2,15%)</span></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="text-center mb-4 fw-bold text-primary">Calculadora de Juros Compostos</h1>
+                <p class="text-center lead text-muted mb-5">Descubra o poder dos juros compostos em seus investimentos.</p>
+
+                <div class="calculator-section">
+                    <h3 class="mb-4 text-dark">Dados para o Cálculo</h3>
+                    <form id="jurosCompostosForm">
+                        <div class="mb-3">
+                            <label for="capitalComposto" class="form-label">Capital Inicial (R$)</label>
+                            <input type="number" class="form-control" id="capitalComposto" placeholder="Ex: 1000.00" step="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="taxaComposta" class="form-label">Taxa de Juros Anual (%)</label>
+                            <input type="number" class="form-control" id="taxaComposta" placeholder="Ex: 10" step="0.01" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="tempoComposto" class="form-label">Período (Anos)</label>
+                            <input type="number" class="form-control" id="tempoComposto" placeholder="Ex: 5" step="1" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Calcular</button>
+                            <button type="reset" class="btn btn-outline-secondary">Limpar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="result-section mt-5" id="resultadoJurosCompostos" style="display: none;">
+                    <h3 class="text-dark mb-3">Resultado do Cálculo</h3>
+                    <p>Montante Final:</p>
+                    <p class="result-value" id="montanteCompostoFinal">R$ 0,00</p>
+                    <p>Juros Totais Gerados:</p>
+                    <p class="result-value" id="jurosCompostosGerados">R$ 0,00</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login de Administrador</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="usernameInput" class="form-label">Usuário</label>
+                            <input type="text" class="form-control" id="usernameInput" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordInput" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="passwordInput" required>
+                        </div>
+                        <div id="loginErrorMessage" class="alert alert-danger d-none" role="alert">
+                            Usuário ou senha incorretos.
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // JS para a calculadora de Juros Compostos
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('jurosCompostosForm');
+            const capitalInput = document.getElementById('capitalComposto');
+            const taxaInput = document.getElementById('taxaComposta');
+            const tempoInput = document.getElementById('tempoComposto');
+            const resultadoSection = document.getElementById('resultadoJurosCompostos');
+            const montanteFinalDisplay = document.getElementById('montanteCompostoFinal');
+            const jurosGeradosDisplay = document.getElementById('jurosCompostosGerados');
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault(); // Impede o envio do formulário
+
+                const capital = parseFloat(capitalInput.value);
+                const taxa = parseFloat(taxaInput.value) / 100; // Converte para decimal
+                const tempo = parseFloat(tempoInput.value);
+
+                if (isNaN(capital) || isNaN(taxa) || isNaN(tempo) || capital <= 0 || taxa <= 0 || tempo <= 0) {
+                    alert('Por favor, insira valores válidos e positivos para Capital, Taxa e Período.');
+                    return;
+                }
+
+                // Fórmula de Juros Compostos: M = C * (1 + i)^t
+                const montante = capital * Math.pow((1 + taxa), tempo);
+                const juros = montante - capital;
+
+                montanteFinalDisplay.textContent = `R$ ${montante.toFixed(2).replace('.', ',')}`;
+                jurosGeradosDisplay.textContent = `R$ ${juros.toFixed(2).replace('.', ',')}`;
+                resultadoSection.style.display = 'block'; // Mostra a seção de resultado
+            });
+
+            form.addEventListener('reset', () => {
+                resultadoSection.style.display = 'none'; // Esconde a seção de resultado ao limpar
+                montanteFinalDisplay.textContent = 'R$ 0,00';
+                jurosGeradosDisplay.textContent = 'R$ 0,00';
+            });
+
+            // --- Código de Login (copiado do seu index.html, ajuste conforme necessário) ---
+            const adminButton = document.getElementById('adminButton');
+            const loginModalElement = document.getElementById('loginModal');
+            const loginModal = loginModalElement ? new bootstrap.Modal(loginModalElement) : null;
+            const loginForm = document.getElementById('loginForm');
+            const usernameInputLogin = document.getElementById('usernameInput'); 
+            const passwordInputLogin = document.getElementById('passwordInput'); 
+            const loginErrorMessage = document.getElementById('loginErrorMessage');
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+
+                    const username = usernameInputLogin.value;
+                    const password = passwordInputLogin.value;
+
+                    if (username === 'admin' && password === 'admin') {
+                        loginErrorMessage.classList.add('d-none');
+                        if (loginModal) loginModal.hide();
+                        // Ajuste o caminho para subir dois níveis e ir para a pasta admin
+                        window.location.href = '../../admin/admin.html'; 
+                    } else {
+                        loginErrorMessage.classList.remove('d-none');
+                    }
+                });
+            }
+
+            if (loginModalElement) { 
+                loginModalElement.addEventListener('hidden.bs.modal', () => {
+                    if (loginForm) loginForm.reset();
+                    if (loginErrorMessage) loginErrorMessage.classList.add('d-none');
+                });
+            }
+            // --- Fim do Código de Login ---
+
+            // --- Código do Ticker (Estático ou Dinâmico) ---
+            // Se você já tem o código dinâmico para o ticker, cole-o aqui.
+            // Para este template, estou usando a versão estática com animação CSS.
+            const dynamicTickerContent = document.getElementById('dynamic-ticker-content');
+            if (dynamicTickerContent) {
+                // O HTML já possui o conteúdo duplicado para a animação CSS.
+                // Se for carregar dinamicamente com JS e API, o código da API iria aqui.
+            }
+            // --- Fim do Código do Ticker ---
+        });
+    </script>
+</body>
+</html>
