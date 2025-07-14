@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetch(sheetUrl)
         .then(response => {
-            if (!response.ok) throw new Error('Não foi possível carregar os dados da planilha. Verifique o link e as permissões.');
+            if (!response.ok) throw new Error('Não foi possível carregar os posts.');
             return response.text();
         })
         .then(csvText => {
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Erro:', error);
             if (loadingState) loadingState.remove(); // Remove o estado de carregamento
-            contentContainer.innerHTML = `<div class="col-lg-8"><div class="alert alert-danger" role="alert"><strong>Falha na operação:</strong> ${error.message}<br>Verifique se o ID da planilha está correto e se ela está publicada para a web como CSV.</div></div>`;
+            contentContainer.innerHTML = `<div class="col-lg-8"><div class="alert alert-danger" role="alert"><strong>Falha ao carregar post:</strong> ${error.message}<br>Verifique se o link está correto.</div></div>`;
         });
     const adminButton = document.getElementById('adminButton');
     const loginModal = new bootstrap.Modal(document.getElementById('loginModal')); // Cria uma instância do modal
