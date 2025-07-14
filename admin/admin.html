@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Criar Novo Post</title>
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        /* Estilos adicionais para a visualização da imagem */
+        .image-preview-container {
+            display: flex;
+            align-items: flex-end; /* Alinha a imagem com o campo de input */
+            gap: 15px; /* Espaçamento entre o input e a imagem */
+        }
+        .image-preview {
+            width: 150px; /* Largura fixa para a visualização */
+            height: 100px; /* Altura fixa para a visualização */
+            border: 1px dashed #ccc;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Garante que a imagem não transborde */
+            flex-shrink: 0; /* Impede que a imagem encolha */
+        }
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Garante que a imagem se ajuste sem cortar */
+        }
+        .image-preview span {
+            color: #6c757d;
+            font-size: 0.875rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Criar Novo Post</h4>
+                        <a href="../index.html" class="btn btn-light btn-sm">
+                            <i class="fas fa-arrow-left me-1"></i> Voltar ao Site
+                        </a>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="post-form">
+                            <div class="mb-3">
+                                <label for="post-title" class="form-label">Título</label>
+                                <input type="text" class="form-control" id="post-title" name="titulo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="post-subtitle" class="form-label">Subtítulo</label>
+                                <input type="text" class="form-control" id="post-subtitle" name="subtitulo">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="post-image-url" class="form-label">URL da Imagem de Capa</label>
+                                <div class="image-preview-container">
+                                    <input type="url" class="form-control" id="post-image-url" name="url_imagem" placeholder="Ex: https://exemplo.com/imagem.jpg">
+                                    <div class="image-preview" id="image-preview-display">
+                                        <span>Pré-visualização</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="post-category" class="form-label">Categoria</label>
+                                    <select class="form-select" id="post-category" name="categoria" required>
+                                        <option selected disabled value="">Selecione...</option>
+                                        <option>Notícias</option>
+                                        <option>Análises</option>
+                                        <option>Mercado</option>
+                                        <option>Educação Financeira</option>
+                                        <option>Tecnologia</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="post-author" class="form-label">Autor</label>
+                                    <input type="text" class="form-control" id="post-author" name="autor" value="Equipe iFinanças" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="post-date" class="form-label">Data de Publicação</label>
+                                <input type="date" class="form-control" id="post-date" name="data" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="post-content" class="form-label">Conteúdo</label>
+                                <textarea class="form-control" id="post-content" name="conteudo" rows="10" placeholder="Insira o texto completo do seu post aqui..." required></textarea>
+                            </div>
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-secondary" id="clear-btn">Limpar Campos</button>
+                                <button type="submit" class="btn btn-primary">Salvar Post</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
+```

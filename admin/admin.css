@@ -1,0 +1,18 @@
+body {
+    background-color: #f0f2f5;
+}
+
+.card {
+    border: none;
+    border-radius: 0.75rem;
+}
+
+.card-header {
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+}
+
+.form-label {
+    font-weight: 500;
+}
+

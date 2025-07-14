@@ -1,0 +1,59 @@
+.ticker-bar {
+    background-color: #f0f0f0; /* Fundo cinza claro para a barra do ticker */
+    padding: 0.5rem 0;
+    overflow: hidden; /* Importante para esconder o conteúdo que sai da tela */
+    white-space: nowrap; /* Garante que os itens permaneçam em uma linha */
+    box-shadow: inset 0 1px 0 rgba(0,0,0,.05); /* Pequena sombra para separar do topo */
+}
+
+.ticker-content {
+    display: inline-block; /* Permite que o conteúdo se estenda horizontalmente */
+    animation: ticker-scroll 30s linear infinite; /* Nome da animação, duração, velocidade, repetição */
+    /* Duplique os itens dentro do HTML do ticker-content para uma rolagem contínua */
+}
+
+.ticker-item {
+    cursor: pointer;
+    display: inline-block; /* Itens na mesma linha */
+    margin-right: 2rem; /* Espaçamento entre os itens */
+    font-size: 0.9rem; /* Tamanho da fonte */
+    vertical-align: middle; /* Alinha o texto verticalmente */
+}
+
+.quote-change {
+    margin-left: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.quote-change.positive {
+    color: #28a745; /* Verde do Bootstrap success */
+}
+
+.quote-change.negative {
+    color: #dc3545; /* Vermelho do Bootstrap danger */
+}
+
+.quote-change.neutral {
+    color: #6c757d; /* Cinza do Bootstrap secondary */
+}
+
+/* Animação Keyframes */
+@keyframes ticker-scroll {
+    0% {
+        transform: translateX(0%); /* Começa na posição normal */
+    }
+    100% {
+        transform: translateX(-50%); /* Rola 50% para a esquerda (assumindo conteúdo duplicado) */
+    }
+}
+
+/* Para responsividade, ajustar a velocidade ou a largura dos itens */
+/* Em telas menores, o conteúdo pode ser mais denso ou a rolagem mais lenta */
+@media (max-width: 768px) {
+    .ticker-content {
+        animation-duration: 40s; /* Rolagem mais rápida em telas menores, se necessário */
+    }
+    .ticker-item {
+        margin-right: 1.5rem;
+    }
+}
